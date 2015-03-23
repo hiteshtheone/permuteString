@@ -11,9 +11,13 @@
 
 using namespace std;
 
-void permute(string aInString, int aInPos);
+void permute(int aInPos);
+
 
 unsigned long str_len ;
+string aInString,aInString_bak;
+int combo = 0 ;
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";
@@ -24,36 +28,40 @@ int main(int argc, const char * argv[]) {
     }
     */
     cout << "enter string :" ;
-    string aInString;
+    //string aInString;
     cin >> aInString;
-    //const string const_aInSring;
-    //int i;
+    aInString_bak = aInString;
     str_len =  aInString.length();
+    
     cout << "length  = "<< str_len << endl;
-    
-    
-   /* for (i=0; i<aInString.length(); i++) {*/
-        permute(aInString,0);
-    /*}
-    */
-    //while
-    
+
+    permute(0);
+    cout << "No. of combo = "<< combo << endl;
     return 0;
 }
 
-void permute(string aInString,int aInPos)
+void permute(int aInPos)
 {
-    if ((aInPos+2) == str_len) {
-        char c = aInString[aInPos];
-        aInString[aInPos] = aInString[aInPos+1];
-        aInString[aInPos+1] = c ;
-        cout << "String = " << aInString << endl;
-    }
-    else{
-        cout << "Pos = " << aInPos << endl;
-        int i;
-        for (i=0; i<aInString.length(); i++) {
-            permute(aInString, (aInPos+1)%str_len);
+    //cout << "aInPos =" << aInPos << endl;
+    string lString =  aInString;
+    if (aInPos + 2 < str_len) {
+        //cout << "In Permute \n" ;
+        int i ;
+        for (i=0; i< str_len-aInPos; i++) {
+            //cout << "for loop aInPos = "<< aInPos << endl;
+            permute(aInPos+1);
+            aInString = lString;
+            swap(aInString[aInPos],aInString[(aInPos+i+1)%str_len]); //charters at aInPos swapped
+            
+            if (aInPos+i+1 != str_len){
+                cout << "String1 = " << aInString << endl;
+                combo++;
+            }
         }
+    }
+    else if (aInPos + 2 == str_len){
+        swap(aInString[aInPos],aInString[aInPos+1]);
+        cout << "String2 = " << aInString << endl; //Only last two charaters swapped
+        combo++;
     }
 }
